@@ -8,7 +8,9 @@ From one shared config it can:
 - generate one `SKILL.md` file per published skill
 - inject `<link rel="web-skill" ...>` tags into the HTML `<head>` through Vite
 
-The package is source-first and works best in TypeScript apps that already use Vite and Zod.
+The package is TypeScript-first and works best in apps that already use Vite and Zod.
+
+Status: early, but installable. The package now ships compiled `dist/` output, basic automated tests, and a small API reference so adopters do not need to compile TypeScript source themselves just to try it.
 
 ## Install
 
@@ -154,6 +156,10 @@ Each generated `SKILL.md` contains:
 
 The repository also includes [`skills/use-web-skill/SKILL.md`](./skills/use-web-skill/SKILL.md), a discovery workflow for agents that inspect `<head>` before automating a page.
 
+## API reference
+
+For the exported surface, expected behaviors, and common runtime errors, see [`docs/api.md`](./docs/api.md).
+
 ## Design guidance
 
 `web-skill` works best when you expose task-level actions instead of raw UI primitives.
@@ -182,11 +188,23 @@ Treat destructive actions as special cases:
 - return structured results instead of relying on toast text
 - avoid exposing unstable internal helpers just because they are easy to call
 
+## Authorization guidance
+
+`web-skill` does not enforce authorization by itself. The recommended model is for the application to decide which skill documents and runtime functions are exposed in the current session.
+
+Typical patterns:
+
+- only render admin-only `<link rel="web-skill" ...>` tags for admin users
+- serve different skill documents for different audiences such as `/admin-only/SKILL.md` and `/user/SKILL.md`
+- keep backend APIs as the final authorization boundary even if a browser skill becomes visible
+
+If your agent flow benefits from advisory hints, prefer putting that information directly in the visible skill description or link title. For example, titles and descriptions such as `Admin-only order approval API` are often enough to help agents choose the right skill without adding new package-level permission features.
+
 ## Local development
 
 ```bash
 npm install
-npm run check
+npm run verify
 ```
 
 ## License
