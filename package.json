@@ -1,0 +1,53 @@
+{
+  "name": "web-skill",
+  "version": "0.1.0",
+  "description": "Generate browser-advertised skills, runtime registries, and Vite head tags for agent-friendly web apps.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./vite": "./src/vite-plugin.ts"
+  },
+  "files": [
+    "src",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "npm run typecheck",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimbreak/webskill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dimbreak/webskill/issues"
+  },
+  "homepage": "https://github.com/dimbreak/webskill#readme",
+  "keywords": [
+    "agent",
+    "automation",
+    "browser",
+    "skills",
+    "vite",
+    "zod"
+  ],
+  "peerDependencies": {
+    "vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.3",
+    "typescript": "^5.7.3",
+    "vite": "^7.0.0"
+  }
+}
