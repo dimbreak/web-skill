@@ -1,6 +1,8 @@
 # web-skill
 
-[繁體中文說明](./docs/README.zh-Hant.md)
+[正體中文](./docs/README.zh-Hant.md)
+
+[简体中文](./docs/README.zh-Hans.md)
 
 [Contributing](./CONTRIBUTING.md)
 
@@ -33,8 +35,6 @@ Entry points are split by purpose:
 - `web-skill/dev` for markdown generation and other build-time helpers
 
 The package is TypeScript-first and works best in apps that already use Vite and Zod.
-
-Status: early, but installable. The package now ships compiled `dist/` output, basic automated tests, and a small API reference so adopters do not need to compile TypeScript source themselves just to try it.
 
 ## Install
 
