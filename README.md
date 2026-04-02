@@ -1,5 +1,23 @@
 # web-skill
 
+[繁體中文說明](./docs/README.zh-Hant.md)
+
+[Contributing](./CONTRIBUTING.md)
+
+Bridge humans and agents through web UI.
+
+## Vision
+
+AI agents are becoming increasingly capable, but in many real-world workflows they still behave like black boxes, with too little transparency and too few chances for humans to verify, guide, or step in.
+
+The web is already the interface people know and trust. That makes it the most natural bridge between human workflows and agent workflows.
+
+Yet conventional DOM-driven browser automation is still a poor interface for agents: slow, expensive, and often unreliable.
+
+`web-skill` aims to change that by making agent work more transparent, more interruptible, and easier to hand over between humans and agents, enabling safer participation in complex, high-stakes, and business-critical workflows.
+
+## How it works
+
 `web-skill` helps a web app publish task-level automation APIs for agents and browser tooling.
 
 From one shared config it can:
