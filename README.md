@@ -26,6 +26,12 @@ From one shared config it can:
 - generate one `SKILL.md` file per published skill
 - inject `<link rel="web-skill" ...>` tags into the HTML `<head>` through Vite
 
+Entry points are split by purpose:
+
+- `web-skill` for browser/runtime APIs
+- `web-skill/vite` for the Vite plugin
+- `web-skill/dev` for markdown generation and other build-time helpers
+
 The package is TypeScript-first and works best in apps that already use Vite and Zod.
 
 Status: early, but installable. The package now ships compiled `dist/` output, basic automated tests, and a small API reference so adopters do not need to compile TypeScript source themselves just to try it.
@@ -41,6 +47,17 @@ If you want the Vite plugin in your own project:
 ```bash
 npm install vite
 ```
+
+## Examples
+
+- [`examples/request-workbench`](./examples/request-workbench/): a pure front-end React + Zustand mock showing how to list existing records, create new drafts, and expose both flows through `web-skill`
+- [`examples/checkout-desk`](./examples/checkout-desk/): a three-step checkout form with local React state only, showing how a `prepareCheckout` skill can still drive a conventional DOM-shaped workflow
+
+The checkout example is intentionally plain. `web-skill` is still useful when the site is just a conventional form flow with named inputs and submit buttons, not only when the app already has a polished agent-native architecture.
+
+## Agent setup
+
+On the agent side, install or load [`use-web-skill`](./skills/use-web-skill/SKILL.md). That gives the agent a simple discovery workflow: inspect the page `<head>`, look for `<link rel="web-skill">`, fetch the relevant `SKILL.md`, and only then continue with browser interaction.
 
 ## Quick start
 
@@ -143,7 +160,7 @@ Use the Vite plugin with the same generator instance:
 ```ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { webSkillVitePlugin } from "web-skill";
+import { webSkillVitePlugin } from "web-skill/vite";
 import { webSkills } from "./src/web-skills.ts";
 
 export default defineConfig({
@@ -188,6 +205,8 @@ Good examples:
 - `openInvoiceDraft`
 - `fillPurchaseOrderForm`
 - `submitCurrentApproval`
+
+Well-designed functions should also help move the workflow to the right interface for the next step. When appropriate, a function can open the relevant screen, navigate to a draft, or return route and record identifiers that make human handoff easy.
 
 Avoid low-level wrappers like:
 

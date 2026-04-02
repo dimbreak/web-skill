@@ -7,7 +7,7 @@ import {
   buildWebSkillLinkTags,
   generateSkillMarkdown,
   renderZodSchema,
-} from "../dist/index.js";
+} from "../dist/dev.js";
 
 test("renderZodSchema prints nested objects, enums, arrays, and optionals", () => {
   const schema = z.object({

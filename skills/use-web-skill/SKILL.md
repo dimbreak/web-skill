@@ -1,11 +1,15 @@
 ---
 name: use-web-skill
-description: Discover and use browser-advertised skills exposed through HTML head tags like `<link rel="web-skill" href=".../SKILL.md" title="...">`. Use when Codex is browsing or automating a website with Browser MCP, Playwright, or other browser tooling and should check whether the page publishes a task-relevant skill before continuing with normal interaction.
+description: Discover browser-advertised `web-skill` links in a page head, fetch the relevant `SKILL.md`, verify the matching runtime entrypoint under `window._web_skills`, and prefer direct task-level calls before falling back to raw browser automation.
 ---
 
 # use-web-skill
 
-When working on a live webpage with browser tooling, check the document `<head>` before deeper interaction.
+Use this skill when an agent is working on a live webpage with Browser MCP, Playwright, or similar browser tooling.
+
+It helps the agent look for `<link rel="web-skill" ...>` in the document `<head>`, read the linked `SKILL.md`, verify the matching browser runtime entrypoint, and prefer the page's advertised workflow before falling back to generic DOM automation.
+
+This is most useful on sites that already publish task-level browser skills and want agents to discover them reliably.
 
 ## Workflow
 
@@ -14,8 +18,9 @@ When working on a live webpage with browser tooling, check the document `<head>`
    - especially `href` and `title`
 2. Compare each link `title` against the current task.
 3. If a title looks relevant, fetch the linked `SKILL.md`.
-4. Read the downloaded skill and apply its instructions for the rest of the browser task.
-5. If no relevant `web-skill` link exists, continue with the normal browser workflow.
+4. Read the downloaded skill, identify the documented console entrypoint, and check whether the page exposes it under `window._web_skills`.
+5. If the matching runtime entrypoint exists, prefer direct task-level function calls through `window._web_skills.*` instead of recreating the flow with DOM clicks and typed input.
+6. If no relevant `web-skill` link exists, or the linked skill cannot be used, continue with the normal browser workflow.
 
 ## Selection rules
 
@@ -30,11 +35,23 @@ When working on a live webpage with browser tooling, check the document `<head>`
 - Treat the linked file as the source of truth for browser-specific workflow.
 - If the file cannot be fetched, note that and fall back to standard browsing.
 
+## Runtime checks
+
+- After reading the linked `SKILL.md`, verify that the described runtime key exists under `window._web_skills`.
+- Sanity-check that the link title, skill description, and runtime entrypoint all point to the same workflow before invoking anything.
+- If the skill document is present but the runtime entrypoint is missing, treat that as an incomplete integration and fall back carefully.
+
 ## Browser MCP guidance
 
 - Use Browser MCP or the active browser tool to inspect `<head>` content first.
-- Only switch into the linked skill workflow after confirming the title is relevant.
-- Keep the fallback simple: no relevant link means no skill handoff.
+- Only switch into the linked skill workflow after confirming the title is relevant and the runtime entrypoint is available.
+- Prefer direct `window._web_skills.*` calls whenever the page exposes them.
+- Keep the fallback order simple:
+  1. discover `<link rel="web-skill">`
+  2. fetch the linked `SKILL.md`
+  3. verify the runtime entrypoint under `window._web_skills`
+  4. direct-call the task-level function
+  5. only then fall back to raw DOM automation
 
 ## Output expectation
 

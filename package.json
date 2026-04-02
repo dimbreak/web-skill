@@ -1,6 +1,6 @@
 {
   "name": "web-skill",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Generate browser-advertised skills, runtime registries, and Vite head tags for agent-friendly web apps.",
   "author": "Dillion Kum <dillion@dimbreak.com>",
   "license": "MIT",
@@ -14,9 +14,14 @@
       "default": "./dist/index.js"
     },
     "./vite": {
-      "types": "./dist/vite-plugin.d.ts",
-      "import": "./dist/vite-plugin.js",
-      "default": "./dist/vite-plugin.js"
+      "types": "./dist/vite.d.ts",
+      "import": "./dist/vite.js",
+      "default": "./dist/vite.js"
+    },
+    "./dev": {
+      "types": "./dist/dev.d.ts",
+      "import": "./dist/dev.js",
+      "default": "./dist/dev.js"
     }
   },
   "files": [
@@ -32,7 +37,7 @@
   },
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
-    "build": "npm run clean && tsup src/index.ts src/vite-plugin.ts --format esm --dts --sourcemap --target es2022 --out-dir dist --clean --treeshake",
+    "build": "npm run clean && tsup src/index.ts src/vite.ts src/dev.ts --format esm --dts --sourcemap --target es2022 --out-dir dist --clean --treeshake",
     "check": "npm run verify",
     "prepack": "npm run build",
     "test": "npm run build && node --import tsx --test tests/**/*.test.ts",
@@ -45,10 +50,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dimbreak/webskill.git"
+    "url": "git+https://github.com/dimbreak/web-skill.git"
   },
   "bugs": {
-    "url": "https://github.com/dimbreak/webskill/issues"
+    "url": "https://github.com/dimbreak/web-skill/issues"
   },
   "homepage": "https://www.npmjs.com/package/web-skill",
   "keywords": [

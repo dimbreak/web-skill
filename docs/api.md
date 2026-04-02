@@ -1,6 +1,12 @@
 # API Reference
 
-`web-skill` exposes a small public API surface on purpose. The package is designed to let an app define task-level browser actions once, then reuse that definition for runtime registration, generated markdown, and HTML discovery tags.
+`web-skill` exposes a small public API surface on purpose. The package is split into separate entry points so runtime code, Vite integration, and build-time helpers stay easy to reason about.
+
+## Entry points
+
+- `web-skill`: runtime generator and browser-facing types
+- `web-skill/vite`: Vite plugin integration
+- `web-skill/dev`: markdown generation and other build-time helpers
 
 ## `createWebSkillGenerator()`
 
@@ -74,15 +80,15 @@ Each skill includes:
 - `description`
 - `functions`
 
-## `generateSkillMarkdown(skill)`
+## `generateSkillMarkdown(skill)` from `web-skill/dev`
 
 Renders one normalized skill definition into a `SKILL.md` document suitable for serving or emitting as a build asset.
 
-## `renderZodSchema(schema)`
+## `renderZodSchema(schema)` from `web-skill/dev`
 
 Converts a Zod schema into a compact TypeScript-like summary string for documentation output.
 
-## `buildWebSkillLinkTags(skills, basePath?)`
+## `buildWebSkillLinkTags(skills, basePath?)` from `web-skill/dev`
 
 Creates the `<link rel="web-skill" ...>` metadata records used by the Vite plugin and any custom integrations.
 
@@ -96,7 +102,7 @@ Return shape:
 }
 ```
 
-## `webSkillVitePlugin(options)`
+## `webSkillVitePlugin(options)` from `web-skill/vite`
 
 Vite integration that:
 
