@@ -5,6 +5,7 @@ import type { ResolvedWebSkillDefinition, ResolvedWebSkillFunctionDefinition } f
 const INDENT = "  ";
 
 interface LooseZodDefinition {
+  type?: string;
   typeName?: string;
   [key: string]: unknown;
 }
@@ -71,36 +72,56 @@ export function renderZodSchema(schema: ZodTypeAny): string {
 
 function renderSchema(schema: ZodTypeAny, depth: number): string {
   const definition = getDefinition(schema);
-  const typeName = definition?.typeName;
+  const typeName = definition?.typeName ?? definition?.type;
 
   switch (typeName) {
     case "ZodString":
+    case "string":
       return "string";
     case "ZodNumber":
+    case "number":
       return "number";
     case "ZodBoolean":
+    case "boolean":
       return "boolean";
     case "ZodBigInt":
+    case "bigint":
       return "bigint";
     case "ZodDate":
+    case "date":
       return "Date";
     case "ZodUndefined":
+    case "undefined":
       return "undefined";
     case "ZodNull":
+    case "null":
       return "null";
     case "ZodVoid":
+    case "void":
       return "void";
     case "ZodAny":
+    case "any":
       return "any";
     case "ZodUnknown":
+    case "unknown":
       return "unknown";
     case "ZodNever":
+    case "never":
       return "never";
     case "ZodLiteral":
-      return JSON.stringify(definition?.value);
+    case "literal":
+      return JSON.stringify(
+        definition?.value ?? (Array.isArray(definition?.values) ? definition.values[0] : undefined),
+      );
     case "ZodEnum":
+    case "enum":
       return Array.isArray(definition?.values)
         ? definition.values.map((value) => JSON.stringify(value)).join(" | ")
+        : definition?.entries && typeof definition.entries === "object"
+          ? Object.values(definition.entries)
+            .filter((value): value is string | number => typeof value === "string" || typeof value === "number")
+            .map((value) => JSON.stringify(value))
+            .join(" | ")
         : "string";
     case "ZodNativeEnum":
       return renderNativeEnum(
@@ -109,19 +130,26 @@ function renderSchema(schema: ZodTypeAny, depth: number): string {
           : undefined,
       );
     case "ZodArray":
-      return `${wrapType(renderSchema(definition?.type as ZodTypeAny, depth))}[]`;
+    case "array":
+      return `${wrapType(renderSchema((definition?.element ?? definition?.type) as unknown as ZodTypeAny, depth))}[]`;
     case "ZodOptional":
+    case "optional":
       return `${renderSchema(definition?.innerType as ZodTypeAny, depth)} | undefined`;
     case "ZodNullable":
+    case "nullable":
       return `${renderSchema(definition?.innerType as ZodTypeAny, depth)} | null`;
     case "ZodDefault":
     case "ZodCatch":
+    case "default":
+    case "catch":
       return renderSchema(definition?.innerType as ZodTypeAny, depth);
     case "ZodEffects":
-      return renderSchema(definition?.schema as ZodTypeAny, depth);
+    case "pipe":
+      return renderSchema((definition?.schema ?? definition?.in) as ZodTypeAny, depth);
     case "ZodBranded":
-      return renderSchema(definition?.type as ZodTypeAny, depth);
+      return renderSchema(definition?.type as unknown as ZodTypeAny, depth);
     case "ZodUnion":
+    case "union":
       return Array.isArray(definition?.options)
         ? definition.options.map((option) => wrapType(renderSchema(option as ZodTypeAny, depth))).join(" | ")
         : "unknown";
@@ -132,16 +160,21 @@ function renderSchema(schema: ZodTypeAny, depth: number): string {
         .map((option) => wrapType(renderSchema(option as ZodTypeAny, depth)))
         .join(" | ");
     case "ZodIntersection":
+    case "intersection":
       return `${wrapType(renderSchema(definition?.left as ZodTypeAny, depth))} & ${wrapType(renderSchema(definition?.right as ZodTypeAny, depth))}`;
     case "ZodTuple":
+    case "tuple":
       return `[${Array.isArray(definition?.items)
         ? definition.items.map((item) => renderSchema(item as ZodTypeAny, depth)).join(", ")
         : ""}]`;
     case "ZodRecord":
+    case "record":
       return `Record<${renderRecordKey(definition?.keyType as ZodTypeAny | undefined)}, ${renderSchema(definition?.valueType as ZodTypeAny, depth)}>`;
     case "ZodObject":
+    case "object":
       return renderObjectSchema(schema, depth);
     case "ZodLazy":
+    case "lazy":
       return typeof definition?.getter === "function"
         ? renderSchema(definition.getter() as ZodTypeAny, depth)
         : "unknown";
@@ -197,12 +230,14 @@ function renderRecordKey(keyType: ZodTypeAny | undefined): string {
 }
 
 function isOptionalSchema(schema: ZodTypeAny): boolean {
-  return typeof schema.isOptional === "function" ? schema.isOptional() : getDefinition(schema)?.typeName === "ZodOptional";
+  return typeof schema.isOptional === "function"
+    ? schema.isOptional()
+    : ["ZodOptional", "optional"].includes(getDefinition(schema)?.typeName ?? getDefinition(schema)?.type ?? "");
 }
 
 function unwrapOptionalSchema(schema: ZodTypeAny): ZodTypeAny {
   const definition = getDefinition(schema);
-  if (definition?.typeName === "ZodOptional") {
+  if (definition && ["ZodOptional", "optional"].includes(definition.typeName ?? definition.type ?? "")) {
     return definition.innerType as ZodTypeAny;
   }
 
@@ -222,7 +257,12 @@ function indent(depth: number): string {
 }
 
 function getDefinition(schema: ZodTypeAny): LooseZodDefinition | undefined {
-  return (schema as unknown as { _def?: LooseZodDefinition })._def;
+  const zodSchema = schema as unknown as {
+    _def?: LooseZodDefinition;
+    def?: LooseZodDefinition;
+  };
+
+  return zodSchema._def ?? zodSchema.def;
 }
 
 function escapeFrontmatterValue(value: string): string {
