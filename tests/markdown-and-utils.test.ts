@@ -131,9 +131,9 @@ test("renderZodSchema prints inline comments for string, number, and file restri
     renderZodSchema(schema),
     [
       "{",
-      "  amount: number /* int, min: 1, max: 10 */;",
-      "  attachment: File /* minSize: 10, maxSize: 100, mime: image/png | image/jpeg */;",
-      "  email: string /* format: email, minLength: 5, maxLength: 50 */;",
+      "  amount: number; // int, min: 1, max: 10",
+      "  attachment: File; // minSize: 10, maxSize: 100, mime: image/png | image/jpeg",
+      "  email: string; // format: email, minLength: 5, maxLength: 50",
       "}",
     ].join("\n"),
   );
@@ -166,7 +166,7 @@ test("generateSkillMarkdown emits frontmatter, entrypoint, and schema sections",
   assert.match(markdown, /window\._web_skills\.erpProcurement/u);
   assert.match(markdown, /## `findSupplierItem\(input\)`/u);
   assert.match(markdown, /Purpose: Look up one supplier item\./u);
-  assert.match(markdown, /keyword: string \/\* minLength: 1 \*\/;/u);
+  assert.match(markdown, /keyword: string; \/\/ minLength: 1/u);
   assert.equal(markdown.includes("({\n  itemId: string;\n})[]"), true);
 });
 

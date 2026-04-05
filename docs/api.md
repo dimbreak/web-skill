@@ -124,8 +124,8 @@ Converts a Zod schema into a compact TypeScript-like summary string for document
 
 Behavior notes:
 
-- primitive and file schemas with extra restrictions render inline comments next to the base type
-- common checks such as string format, min/max length, numeric min/max, integer format, file size, and MIME restrictions are summarized as `/* ... */`
+- primitive and file schemas with extra restrictions render compact end-of-line comments next to the base type
+- common checks such as string format, min/max length, numeric min/max, integer format, file size, and MIME restrictions are summarized as `; // ...`
 
 ## `buildWebSkillLinkTags(skills, basePath?)` from `web-skill/dev`
 

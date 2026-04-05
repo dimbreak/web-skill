@@ -215,7 +215,7 @@ function renderObjectSchema(schema: ZodTypeAny, depth: number): string {
   const propertyLines = entries.map(([key, propertySchema]) => {
     const optional = isOptionalSchema(propertySchema);
     const renderedType = renderSchema(optional ? unwrapOptionalSchema(propertySchema) : propertySchema, depth + 1);
-    return `${indent(depth + 1)}${quotePropertyKey(key)}${optional ? "?" : ""}: ${renderedType};`;
+    return `${indent(depth + 1)}${quotePropertyKey(key)}${optional ? "?" : ""}: ${appendPropertyTerminator(renderedType)}`;
   });
 
   return ["{", ...propertyLines, `${indent(depth)}}`].join("\n");
@@ -266,7 +266,16 @@ function wrapType(value: string): string {
 
 function withSchemaComment(rendered: string, schema: ZodTypeAny): string {
   const comment = renderSchemaComment(schema);
-  return comment ? `${rendered} /* ${comment} */` : rendered;
+  return comment ? `${rendered} // ${comment}` : rendered;
+}
+
+function appendPropertyTerminator(rendered: string): string {
+  const commentIndex = rendered.indexOf(" // ");
+  if (commentIndex === -1) {
+    return `${rendered};`;
+  }
+
+  return `${rendered.slice(0, commentIndex)};${rendered.slice(commentIndex)}`;
 }
 
 function renderSchemaComment(schema: ZodTypeAny): string {
