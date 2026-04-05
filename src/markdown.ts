@@ -5,6 +5,19 @@ import type { ResolvedWebSkillDefinition, ResolvedWebSkillFunctionDefinition } f
 const INDENT = "  ";
 
 interface LooseZodDefinition {
+  check?: string;
+  checks?: unknown[];
+  format?: string;
+  inclusive?: boolean;
+  includes?: string;
+  length?: number;
+  maximum?: number;
+  mime?: string | string[];
+  minimum?: number;
+  pattern?: RegExp;
+  prefix?: string;
+  suffix?: string;
+  value?: unknown;
   type?: string;
   typeName?: string;
   [key: string]: unknown;
@@ -77,10 +90,10 @@ function renderSchema(schema: ZodTypeAny, depth: number): string {
   switch (typeName) {
     case "ZodString":
     case "string":
-      return "string";
+      return withSchemaComment("string", schema);
     case "ZodNumber":
     case "number":
-      return "number";
+      return withSchemaComment("number", schema);
     case "ZodBoolean":
     case "boolean":
       return "boolean";
@@ -90,6 +103,9 @@ function renderSchema(schema: ZodTypeAny, depth: number): string {
     case "ZodDate":
     case "date":
       return "Date";
+    case "ZodFile":
+    case "file":
+      return withSchemaComment("File", schema);
     case "ZodUndefined":
     case "undefined":
       return "undefined";
@@ -248,6 +264,68 @@ function wrapType(value: string): string {
   return /[|&\n]/u.test(value) ? `(${value})` : value;
 }
 
+function withSchemaComment(rendered: string, schema: ZodTypeAny): string {
+  const comment = renderSchemaComment(schema);
+  return comment ? `${rendered} /* ${comment} */` : rendered;
+}
+
+function renderSchemaComment(schema: ZodTypeAny): string {
+  const definition = getDefinition(schema);
+  const checks = Array.isArray(definition?.checks) ? definition.checks : [];
+  const parts = [renderCheckComment(definition), ...checks
+    .map((check) => renderCheckComment(getDefinition(check as ZodTypeAny)))
+    .filter((part): part is string => Boolean(part))]
+    .filter((part): part is string => Boolean(part));
+
+  return Array.from(new Set(parts)).join(", ");
+}
+
+function renderCheckComment(definition: LooseZodDefinition | undefined): string | undefined {
+  switch (definition?.check) {
+    case "min_length":
+      return `minLength: ${definition.minimum}`;
+    case "max_length":
+      return `maxLength: ${definition.maximum}`;
+    case "length_equals":
+      return `length: ${definition.length}`;
+    case "string_format":
+      return renderStringFormatComment(definition);
+    case "greater_than":
+      return `${definition.inclusive ? "min" : "gt"}: ${definition.value}`;
+    case "less_than":
+      return `${definition.inclusive ? "max" : "lt"}: ${definition.value}`;
+    case "multiple_of":
+      return `multipleOf: ${definition.value}`;
+    case "number_format":
+      return definition.format === "safeint" ? "int" : `format: ${definition.format}`;
+    case "min_size":
+      return `minSize: ${definition.minimum}`;
+    case "max_size":
+      return `maxSize: ${definition.maximum}`;
+    case "mime_type":
+      return Array.isArray(definition.mime)
+        ? `mime: ${definition.mime.join(" | ")}`
+        : `mime: ${definition.mime}`;
+    default:
+      return undefined;
+  }
+}
+
+function renderStringFormatComment(definition: LooseZodDefinition): string | undefined {
+  switch (definition.format) {
+    case "starts_with":
+      return `startsWith: ${JSON.stringify(definition.prefix)}`;
+    case "ends_with":
+      return `endsWith: ${JSON.stringify(definition.suffix)}`;
+    case "includes":
+      return `includes: ${JSON.stringify(definition.includes)}`;
+    case "regex":
+      return `pattern: ${String(definition.pattern)}`;
+    default:
+      return definition.format ? `format: ${definition.format}` : undefined;
+  }
+}
+
 function quotePropertyKey(value: string): string {
   return /^[A-Za-z_$][A-Za-z0-9_$]*$/u.test(value) ? value : JSON.stringify(value);
 }
@@ -260,9 +338,12 @@ function getDefinition(schema: ZodTypeAny): LooseZodDefinition | undefined {
   const zodSchema = schema as unknown as {
     _def?: LooseZodDefinition;
     def?: LooseZodDefinition;
+    _zod?: {
+      def?: LooseZodDefinition;
+    };
   };
 
-  return zodSchema._def ?? zodSchema.def;
+  return zodSchema._def ?? zodSchema.def ?? zodSchema._zod?.def;
 }
 
 function getSchemaKind(schema: ZodTypeAny): string {
