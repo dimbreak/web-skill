@@ -2,7 +2,7 @@
 
 All notable changes to `web-skill` should be documented in this file.
 
-## Unreleased
+## 0.2.2 - 2026-04-05
 
 - harden markdown schema rendering against Zod v4 metadata layouts that expose schema kind via `def.type` or `schema.type`
 - add regression coverage for generated `SKILL.md` schema summaries when `_def.typeName` is absent
