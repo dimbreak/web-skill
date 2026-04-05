@@ -30,6 +30,92 @@ test("renderZodSchema prints nested objects, enums, arrays, and optionals", () =
   );
 });
 
+test("renderZodSchema supports zod v4-style schema metadata exposed through def.type", () => {
+  const schema = {
+    def: {
+      shape: {
+        itemId: {
+          def: { type: "string" },
+          type: "string",
+        },
+        comment: {
+          def: {
+            innerType: {
+              def: { type: "string" },
+              type: "string",
+            },
+            type: "optional",
+          },
+          type: "optional",
+        },
+      },
+      type: "object",
+    },
+    type: "object",
+  } as unknown as z.ZodTypeAny;
+
+  assert.equal(
+    renderZodSchema(schema),
+    [
+      "{",
+      "  itemId: string;",
+      "  comment?: string;",
+      "}",
+    ].join("\n"),
+  );
+});
+
+enum DeliveryState {
+  Pending = "pending",
+  Sent = "sent",
+}
+
+test("renderZodSchema prints unions, tuples, records, native enums, and nested arrays", () => {
+  const schema = z.object({
+    deliveryState: z.nativeEnum(DeliveryState),
+    lineItems: z.array(
+      z.object({
+        quantity: z.number(),
+        sku: z.string(),
+      }),
+    ),
+    metadata: z.record(z.string(), z.union([z.string(), z.number()])),
+    result: z.discriminatedUnion("kind", [
+      z.object({
+        invoiceId: z.string(),
+        kind: z.literal("invoice"),
+      }),
+      z.object({
+        kind: z.literal("receipt"),
+        receiptNumber: z.number(),
+      }),
+    ]),
+    tupleValue: z.tuple([z.string(), z.number()]),
+  });
+
+  assert.equal(
+    renderZodSchema(schema),
+    [
+      "{",
+      "  deliveryState: \"pending\" | \"sent\";",
+      "  lineItems: ({",
+      "    quantity: number;",
+      "    sku: string;",
+      "  })[];",
+      "  metadata: Record<string, string | number>;",
+      "  result: ({",
+      "    invoiceId: string;",
+      "    kind: \"invoice\";",
+      "  }) | ({",
+      "    kind: \"receipt\";",
+      "    receiptNumber: number;",
+      "  });",
+      "  tupleValue: [string, number];",
+      "}",
+    ].join("\n"),
+  );
+});
+
 test("generateSkillMarkdown emits frontmatter, entrypoint, and schema sections", () => {
   const markdown = generateSkillMarkdown({
     description: "Use this skill for procurement lookups.",

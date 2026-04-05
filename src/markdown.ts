@@ -72,7 +72,7 @@ export function renderZodSchema(schema: ZodTypeAny): string {
 
 function renderSchema(schema: ZodTypeAny, depth: number): string {
   const definition = getDefinition(schema);
-  const typeName = definition?.typeName ?? definition?.type;
+  const typeName = getSchemaKind(schema);
 
   switch (typeName) {
     case "ZodString":
@@ -232,12 +232,12 @@ function renderRecordKey(keyType: ZodTypeAny | undefined): string {
 function isOptionalSchema(schema: ZodTypeAny): boolean {
   return typeof schema.isOptional === "function"
     ? schema.isOptional()
-    : ["ZodOptional", "optional"].includes(getDefinition(schema)?.typeName ?? getDefinition(schema)?.type ?? "");
+    : ["ZodOptional", "optional"].includes(getSchemaKind(schema));
 }
 
 function unwrapOptionalSchema(schema: ZodTypeAny): ZodTypeAny {
   const definition = getDefinition(schema);
-  if (definition && ["ZodOptional", "optional"].includes(definition.typeName ?? definition.type ?? "")) {
+  if (definition && ["ZodOptional", "optional"].includes(getSchemaKind(schema))) {
     return definition.innerType as ZodTypeAny;
   }
 
@@ -263,6 +263,15 @@ function getDefinition(schema: ZodTypeAny): LooseZodDefinition | undefined {
   };
 
   return zodSchema._def ?? zodSchema.def;
+}
+
+function getSchemaKind(schema: ZodTypeAny): string {
+  const definition = getDefinition(schema);
+  const zodSchema = schema as unknown as {
+    type?: string;
+  };
+
+  return definition?.typeName ?? definition?.type ?? zodSchema.type ?? "";
 }
 
 function escapeFrontmatterValue(value: string): string {
