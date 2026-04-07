@@ -53,6 +53,40 @@ Runtime guarantees:
 - `_meta` is reserved
 - duplicate function names within a skill are rejected
 - `inputSchema` and `outputSchema` are enforced with Zod when provided
+- `z.file()` inputs and outputs accept `File`, `Blob`, and `data:` URL strings; runtime normalization converts them to `File` before Zod parsing
+
+### `z.file()` normalization
+
+When a function input or output schema includes `z.file()`, `web-skill` normalizes file-like values before calling `schema.parse(...)`.
+
+Accepted values:
+
+- `File`: passed through unchanged
+- `Blob`: wrapped as `new File([blob], "blob", { type: blob.type || "application/octet-stream" })`
+- `data:` URL string: decoded and wrapped as `new File([...], "file", { type: <data-url mime> })`
+
+This normalization is schema-aware and applies recursively inside common container schemas such as:
+
+- `z.object(...)`
+- `z.array(...)`
+- `z.record(...)`
+- `z.union(...)`
+- `z.discriminatedUnion(...)`
+- `z.tuple(...)`
+- `z.intersection(...)`
+- wrappers such as `optional`, `nullable`, `default`, `catch`, `pipe`, `lazy`, and branded schemas
+
+Important limits:
+
+- `web-skill` does not read arbitrary local files from the user's machine
+- plain strings are only treated as files when they are `data:` URLs
+- if the runtime does not provide a global `File` constructor, `z.file()` normalization throws
+
+Typical browser-side pattern:
+
+1. Obtain a `File`, `Blob`, or `data:` URL inside the page runtime.
+2. Call the published `web-skill` function with that value.
+3. Let the page-side handler place the resulting `File` into a file input with `DataTransfer` if needed.
 
 ## `generator.install(target?)`
 
@@ -87,6 +121,11 @@ Renders one normalized skill definition into a `SKILL.md` document suitable for 
 ## `renderZodSchema(schema)` from `web-skill/dev`
 
 Converts a Zod schema into a compact TypeScript-like summary string for documentation output.
+
+Behavior notes:
+
+- primitive and file schemas with extra restrictions render compact end-of-line comments next to the base type
+- common checks such as string format, min/max length, numeric min/max, integer format, file size, and MIME restrictions are summarized as `; // ...`
 
 ## `buildWebSkillLinkTags(skills, basePath?)` from `web-skill/dev`
 

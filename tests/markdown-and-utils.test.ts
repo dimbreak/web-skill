@@ -116,6 +116,50 @@ test("renderZodSchema prints unions, tuples, records, native enums, and nested a
   );
 });
 
+test("renderZodSchema prints file schemas as File", () => {
+  assert.equal(renderZodSchema(z.file()), "File");
+});
+
+test("renderZodSchema prints inline comments for string, number, and file restrictions", () => {
+  const schema = z.object({
+    amount: z.number().int().min(1).max(10),
+    attachment: z.file().min(10).max(100).mime(["image/png", "image/jpeg"]),
+    email: z.string().email().min(5).max(50),
+  });
+
+  assert.equal(
+    renderZodSchema(schema),
+    [
+      "{",
+      "  amount: number; // int, min: 1, max: 10",
+      "  attachment: File; // minSize: 10, maxSize: 100, mime: image/png | image/jpeg",
+      "  email: string; // format: email, minLength: 5, maxLength: 50",
+      "}",
+    ].join("\n"),
+  );
+});
+
+test("renderZodSchema keeps nested multiline comments inside arrays without duplicating semicolons", () => {
+  const schema = z.object({
+    lines: z.array(
+      z.object({
+        productId: z.string().min(1).optional(),
+      }),
+    ),
+  });
+
+  assert.equal(
+    renderZodSchema(schema),
+    [
+      "{",
+      "  lines: ({",
+      "    productId?: string; // minLength: 1",
+      "  })[];",
+      "}",
+    ].join("\n"),
+  );
+});
+
 test("generateSkillMarkdown emits frontmatter, entrypoint, and schema sections", () => {
   const markdown = generateSkillMarkdown({
     description: "Use this skill for procurement lookups.",
@@ -143,7 +187,7 @@ test("generateSkillMarkdown emits frontmatter, entrypoint, and schema sections",
   assert.match(markdown, /window\._web_skills\.erpProcurement/u);
   assert.match(markdown, /## `findSupplierItem\(input\)`/u);
   assert.match(markdown, /Purpose: Look up one supplier item\./u);
-  assert.match(markdown, /keyword: string;/u);
+  assert.match(markdown, /keyword: string; \/\/ minLength: 1/u);
   assert.equal(markdown.includes("({\n  itemId: string;\n})[]"), true);
 });
 

@@ -109,3 +109,59 @@ test("generator creates unique fallback names, keys, and slugs", () => {
     ],
   );
 });
+
+test("generator normalizes blob, file, and data URL values for z.file() inputs", async () => {
+  const generator = createWebSkillGenerator();
+  const skill = generator.newSkill({
+    name: "assetDesk",
+    title: "Asset desk API",
+  });
+
+  skill.addFunction(
+    async (input) => ({
+      file: input.file,
+      mimeType: input.file.type,
+      name: input.file.name,
+      text: await input.file.text(),
+    }),
+    "prepareUpload",
+    {
+      inputSchema: z.object({
+        file: z.file(),
+      }),
+      outputSchema: z.object({
+        file: z.file(),
+        mimeType: z.string(),
+        name: z.string(),
+        text: z.string(),
+      }),
+    },
+  );
+
+  const fakeWindow = {} as Window;
+  const registry = generator.install(fakeWindow);
+
+  const blobResult = await registry.assetDesk!.prepareUpload({
+    file: new Blob(["hello blob"], { type: "text/plain" }),
+  });
+  assert.ok(blobResult.file instanceof File);
+  assert.equal(blobResult.file.name, "blob");
+  assert.equal(blobResult.mimeType, "text/plain");
+  assert.equal(blobResult.text, "hello blob");
+
+  const providedFile = new File(["hello file"], "note.txt", { type: "text/plain" });
+  const fileResult = await registry.assetDesk!.prepareUpload({
+    file: providedFile,
+  });
+  assert.equal(fileResult.file, providedFile);
+  assert.equal(fileResult.name, "note.txt");
+  assert.equal(fileResult.text, "hello file");
+
+  const dataUrlResult = await registry.assetDesk!.prepareUpload({
+    file: "data:text/plain;base64,aGVsbG8gZGF0YSB1cmw=",
+  });
+  assert.ok(dataUrlResult.file instanceof File);
+  assert.equal(dataUrlResult.file.name, "file");
+  assert.equal(dataUrlResult.mimeType, "text/plain");
+  assert.equal(dataUrlResult.text, "hello data url");
+});
