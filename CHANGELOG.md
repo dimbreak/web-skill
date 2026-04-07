@@ -2,6 +2,12 @@
 
 All notable changes to `web-skill` should be documented in this file.
 
+## 0.3.0 - 2026-04-07
+
+- normalize `z.file()` inputs and outputs from `File`, `Blob`, and `data:` URL values before Zod parsing
+- render schema restrictions as compact end-of-line comments in generated markdown
+- fix multiline nested schema comment terminators in markdown output
+
 ## 0.2.2 - 2026-04-05
 
 - harden markdown schema rendering against Zod v4 metadata layouts that expose schema kind via `def.type` or `schema.type`
