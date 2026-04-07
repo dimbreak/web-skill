@@ -270,6 +270,10 @@ function withSchemaComment(rendered: string, schema: ZodTypeAny): string {
 }
 
 function appendPropertyTerminator(rendered: string): string {
+  if (rendered.includes("\n")) {
+    return `${rendered};`;
+  }
+
   const commentIndex = rendered.indexOf(" // ");
   if (commentIndex === -1) {
     return `${rendered};`;

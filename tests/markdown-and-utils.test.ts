@@ -139,6 +139,27 @@ test("renderZodSchema prints inline comments for string, number, and file restri
   );
 });
 
+test("renderZodSchema keeps nested multiline comments inside arrays without duplicating semicolons", () => {
+  const schema = z.object({
+    lines: z.array(
+      z.object({
+        productId: z.string().min(1).optional(),
+      }),
+    ),
+  });
+
+  assert.equal(
+    renderZodSchema(schema),
+    [
+      "{",
+      "  lines: ({",
+      "    productId?: string; // minLength: 1",
+      "  })[];",
+      "}",
+    ].join("\n"),
+  );
+});
+
 test("generateSkillMarkdown emits frontmatter, entrypoint, and schema sections", () => {
   const markdown = generateSkillMarkdown({
     description: "Use this skill for procurement lookups.",
