@@ -2,6 +2,11 @@
 
 All notable changes to `web-skill` should be documented in this file.
 
+## 0.3.1 - 2026-04-08
+
+- render generated `SKILL.md` function headings as full callable `window._web_skills.<skill>.<function>(input)` paths
+- remove the redundant standalone console entrypoint block from generated markdown
+
 ## 0.3.0 - 2026-04-07
 
 - normalize `z.file()` inputs and outputs from `File`, `Blob`, and `data:` URL values before Zod parsing

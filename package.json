@@ -1,6 +1,6 @@
 {
   "name": "web-skill",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Generate browser-advertised skills, runtime registries, and Vite head tags for agent-friendly web apps.",
   "author": "Dillion Kum <dillion@dimbreak.com>",
   "license": "MIT",
