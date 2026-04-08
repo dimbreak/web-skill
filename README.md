@@ -185,8 +185,7 @@ At dev/build time the plugin will:
 Each generated `SKILL.md` contains:
 
 - the skill title
-- the console entrypoint under `window._web_skills.<skillKey>`
-- one section per function
+- one section per function using the full callable path under `window._web_skills.<skillKey>.<functionName>(input)`
 - summarized input and output schemas
 
 The repository also includes [`skills/use-web-skill/SKILL.md`](./skills/use-web-skill/SKILL.md), a discovery workflow for agents that inspect `<head>` before automating a page.

@@ -160,7 +160,7 @@ test("renderZodSchema keeps nested multiline comments inside arrays without dupl
   );
 });
 
-test("generateSkillMarkdown emits frontmatter, entrypoint, and schema sections", () => {
+test("generateSkillMarkdown emits frontmatter and full callable function paths", () => {
   const markdown = generateSkillMarkdown({
     description: "Use this skill for procurement lookups.",
     functions: [
@@ -184,8 +184,9 @@ test("generateSkillMarkdown emits frontmatter, entrypoint, and schema sections",
   });
 
   assert.match(markdown, /^---\nname: erp-procurement\n/u);
-  assert.match(markdown, /window\._web_skills\.erpProcurement/u);
-  assert.match(markdown, /## `findSupplierItem\(input\)`/u);
+  assert.doesNotMatch(markdown, /Use the browser console entrypoint:/u);
+  assert.doesNotMatch(markdown, /Available functions:/u);
+  assert.match(markdown, /## `window\._web_skills\.erpProcurement\.findSupplierItem\(input\)`/u);
   assert.match(markdown, /Purpose: Look up one supplier item\./u);
   assert.match(markdown, /keyword: string; \/\/ minLength: 1/u);
   assert.equal(markdown.includes("({\n  itemId: string;\n})[]"), true);

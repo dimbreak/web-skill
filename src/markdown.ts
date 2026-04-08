@@ -36,14 +36,6 @@ export function generateSkillMarkdown(skill: ResolvedWebSkillDefinition): string
     "",
     `# ${skill.title}`,
     "",
-    "Use the browser console entrypoint:",
-    "",
-    "```js",
-    `window._web_skills.${skill.key}`,
-    "```",
-    "",
-    "Available functions:",
-    "",
   ];
 
   for (const definition of skill.functions) {
@@ -61,7 +53,7 @@ function renderFunctionSection(
   const outputSchema = definition.outputSchema ? renderZodSchema(definition.outputSchema) : "unknown";
 
   return [
-    `## \`${definition.name}(input)\``,
+    `## \`window._web_skills.${skill.key}.${definition.name}(input)\``,
     "",
     `Purpose: ${definition.description ?? `Invoke \`window._web_skills.${skill.key}.${definition.name}(input)\`.`}`,
     "",
