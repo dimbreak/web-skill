@@ -1,5 +1,7 @@
 # web-skill
 
+![web-skill](./docs/assets/webskill.webp)
+
 [正體中文](./docs/README.zh-Hant.md)
 
 [简体中文](./docs/README.zh-Hans.md)
