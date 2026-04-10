@@ -50,6 +50,10 @@ If you want the Vite plugin in your own project:
 npm install vite
 ```
 
+## Ecosystem
+
+- [`wp-web-skill`](https://github.com/charles-woo/wp-web-skill/): a WordPress plugin that exposes WordPress and plugin workflows through the `web-skill` protocol
+
 ## Examples
 
 - [`examples/request-workbench`](./examples/request-workbench/): a pure front-end React + Zustand mock showing how to list existing records, create new drafts, and expose both flows through `web-skill`
