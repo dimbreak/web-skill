@@ -2,3 +2,5 @@ node_modules/
 dist/
 *.tsbuildinfo
 tsup.config.bundled_*.mjs
+.idea
+web-skill.iml
