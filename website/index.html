@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta name="description"
+    content="Bridging Humans & AI Agents with secure, automated capabilities embedded in web interfaces." />
+  <title>WebSkill - Bridge Humans &amp; AI Agents</title>
+  <!-- Tailwind CSS v3 CDN with plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Google Fonts: Inter for a clean modern sans-serif look -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <style data-purpose="custom-config">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0f19;
+      color: #e5e7eb;
+    }
+  </style>
+  <style data-purpose="glow-effects">
+    /* Custom glow effects to match the high-fidelity design */
+    .glow-blue {
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4);
+    }
+
+    .btn-glow-blue {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.8), inset 0 0 8px rgba(59, 130, 246, 0.5);
+      border: 1px solid rgba(59, 130, 246, 1);
+    }
+
+    .btn-glow-orange {
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.7), inset 0 0 8px rgba(245, 158, 11, 0.4);
+      border: 1px solid rgba(245, 158, 11, 0.9);
+    }
+
+    .card-glow-blue {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .code-window-glow {
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+      border: 1px solid rgba(0, 255, 255, 0.5);
+    }
+
+    .circuit-bg {
+      background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBbfJiN8_SQ992BLty4yfZ5V2bzvrEHHvLuIDeGvZKS3MBxbyONLiVl8JmPusAyw-s9RPNQ6grfzc1AHwQfxbLJxpf4dAUUxaLfTAQpF64cqXFHVITm6BhtXr7KECYvqRitjCFVgOBxiMm_l1bQer-7fkiWDiWU4UJfIRzCZuT4LiToe2W5r2Bd2DrunjeU5r6LrgV2QewYTy5fwMwSFrEeqGj1xyj0xUIaCoBptyvKGVl65GBPEiKGQQLBxO4YSNlQz3mUNFAJeFg);
+      background-blend-mode: overlay;
+    }
+
+    .note-bar-glow {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen selection:bg-blue-500/30">
+  <!-- BEGIN: Navigation -->
+  <nav class="sticky top-0 z-50 bg-[#0b0f19]/80 backdrop-blur-md border-b border-gray-800"
+    data-purpose="main-navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-20 items-center">
+        <div class="flex items-center gap-2">
+          <span class="text-xl font-bold tracking-tight text-white">
+            <span class="text-blue-400">WebSkill</span>
+          </span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+          <a id="nav-vision" class="hover:text-blue-400 transition-colors" href="#">Vision</a>
+          <a id="nav-how-it-works" class="hover:text-blue-400 transition-colors" href="#how-it-works">How it Works</a>
+          <a id="nav-demo" class="hover:text-blue-400 transition-colors" href="#demo">Demo</a>
+          <a class="flex items-center gap-2 bg-gray-800/50 px-4 py-2 rounded-full border border-gray-700 hover:border-gray-500 transition-all"
+            href="#">
+            <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12">
+              </path>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- END: Navigation -->
+  <main>
+    <!-- BEGIN: Hero Section -->
+    <section class="relative overflow-hidden pt-16 pb-24 lg:pt-32" data-purpose="hero-section">
+      <!-- Background glowing circuits simulation -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-12 gap-8 items-center">
+          <!-- Text Content -->
+          <div class="lg:col-span-5 space-y-6">
+            <h1 class="text-5xl lg:text-6xl font-extrabold text-white tracking-tighter glow-blue mb-4">
+              WebSkill
+            </h1>
+            <p class="text-lg lg:text-xl text-blue-100/80 max-w-xl leading-relaxed">
+              Bridge Humans &amp; AI Agents. <br />
+              Empowering web interfaces with secure, automated AI capabilities.
+            </p>
+            <div class="flex flex-wrap gap-4 pt-4">
+              <a href="#quick-start" id="btn-get-started"
+                class="inline-block text-center px-6 py-3 bg-blue-600/20 text-blue-400 rounded-lg font-bold text-base btn-glow-blue hover:bg-blue-600/30 transition-all uppercase tracking-wide">
+                Get Started
+              </a>
+              <a href="https://github.com/charles-woo/wp-web-skill" target="_blank" id="btn-documentation"
+                class="inline-block text-center px-6 py-3 bg-orange-500/10 text-orange-400 rounded-lg font-bold text-base btn-glow-orange hover:bg-orange-500/20 transition-all uppercase tracking-wide">
+                Documentation
+              </a>
+            </div>
+          </div>
+          <!-- Hero Illustration -->
+          <div class="lg:col-span-7 relative">
+            <img alt="Robot and Human Interaction" class="relative z-10 w-full h-auto drop-shadow-2xl rounded-2xl"
+              src="./assets/images/hero.webp" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Hero Section -->
+    <!-- BEGIN: How it Works -->
+    <section class="py-16 bg-[#0d121f]" data-purpose="how-it-works-section" id="how-it-works">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-white mb-8">How it Works</h2>
+        <div class="mt-12 flex justify-center">
+          <img src="./assets/images/how-it-works.webp" alt="How it Works Flow" class="w-full max-w-5xl h-auto rounded-3xl drop-shadow-2xl border border-gray-700/50 glow-blue" />
+        </div>
+      </div>
+    </section>
+    <!-- END: How it Works -->
+
+    <!-- BEGIN: Demo -->
+    <section class="py-16 bg-[#090d16]" data-purpose="demo-section" id="demo">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-white mb-10 text-center">See it in Action</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Video 1 -->
+          <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-800 card-glow-blue isolate aspect-video bg-black/50">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/vE_R-GeRAOs" title="Demo Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <!-- Video 2 -->
+          <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-800 card-glow-blue isolate aspect-video bg-black/50">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/yspa7GS55eU" title="Demo Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Demo -->
+
+    <!-- BEGIN: Quick Start -->
+    <section class="py-16" data-purpose="quick-start-section" id="quick-start">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-white mb-10">Quick Start</h2>
+        <div class="grid lg:grid-cols-5 gap-8">
+          <!-- Description / Placeholder space -->
+          <div class="lg:col-span-2 flex flex-col justify-center">
+            <p class="text-gray-400 text-lg leading-relaxed mb-8">
+              Getting started with WebSkill is seamless. Install our CLI and start defining your agentic interface
+              contracts in minutes.
+            </p>
+            <div class="p-6 bg-blue-900/10 rounded-xl border border-blue-900/30">
+              <span class="text-blue-400 font-mono text-sm block mb-2"># Terminal</span>
+              <div class="text-gray-300 font-mono text-sm">
+                npm install web-skill<br />
+                npx webskill init
+              </div>
+            </div>
+          </div>
+          <!-- Code Window -->
+          <div class="lg:col-span-3">
+            <div class="bg-[#0f1423] rounded-xl overflow-hidden code-window-glow">
+              <!-- Window Header -->
+              <div class="bg-[#1a2135] px-4 py-3 flex items-center gap-2 border-b border-gray-800">
+                <div class="flex gap-1.5">
+                  <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+                </div>
+                <span class="text-xs text-gray-500 ml-4 font-mono">webskill.config.ts</span>
+              </div>
+              <!-- Code Body -->
+              <div class="p-6 font-mono text-sm leading-relaxed overflow-x-auto">
+                <div class="text-purple-400">import <span class="text-white">{</span> createWebSkillGenerator <span
+                    class="text-white">}</span> from <span class="text-green-400">'web-skill'</span>;</div>
+                <div class="text-purple-400">import <span class="text-white">{</span> z <span
+                    class="text-white">}</span> from <span class="text-green-400">'zod'</span>;</div>
+                <br />
+                <div class="text-blue-400">const <span class="text-white">webSkills = createWebSkillGenerator();</span></div>
+                <br />
+                <div class="text-blue-400">const <span class="text-white">orderSkill = webSkills.newSkill({</span></div>
+                <div class="pl-4 text-blue-400">name: <span class="text-green-400">'PrepareOrderSkill'</span>,</div>
+                <div class="pl-4 text-blue-400">title: <span class="text-green-400">'Prepares actions for orders'</span>,</div>
+                <div class="text-white">});</div>
+                <br />
+                <div class="text-white">orderSkill.addFunction(</div>
+                <div class="pl-4 text-blue-400">(input) =&gt; store.prepareOrder(input),</div>
+                <div class="pl-4 text-green-400">'prepareOrder'</span><span class="text-white">,</span></div>
+                <div class="pl-4 text-white">{</div>
+                <div class="pl-8 text-blue-400">inputSchema: <span class="text-white">z.object({</span></div>
+                <div class="pl-12 text-blue-400">orderId: <span class="text-white">z.string(),</span></div>
+                <div class="pl-12 text-blue-400">priority: <span class="text-white">z.enum([</span><span class="text-green-400">'low'</span><span class="text-white">, </span><span class="text-green-400">'high'</span><span class="text-white">])</span></div>
+                <div class="pl-8 text-white">})</div>
+                <div class="pl-4 text-white">}</div>
+                <div class="text-white">);</div>
+                <br />
+                <div class="text-white">webSkills.install();</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Quick Start -->
+    <!-- BEGIN: Note Bar -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div
+        class="note-bar-glow bg-blue-900/10 rounded-full py-4 px-8 flex items-center justify-center gap-3 border border-blue-500/20">
+        <span class="flex-shrink-0">🚀</span>
+        <p class="text-blue-300 text-sm md:text-base font-medium text-center">
+          <span class="font-bold">Note:</span> Community WebSkill is currently in development. Stay tuned for
+          decentralized skill sharing!
+          <span
+            class="inline-flex items-center ml-2 text-xs bg-blue-400/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-400/30">
+            <svg class="w-3 h-3 mr-1" fill="currentColor" viewbox="0 0 20 20">
+              <path clip-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                fill-rule="evenodd"></path>
+            </svg>
+            Beta
+          </span>
+        </p>
+      </div>
+    </section>
+    <!-- END: Note Bar -->
+  </main>
+  <!-- BEGIN: Footer -->
+  <footer class="bg-[#080b14] border-t border-gray-800 py-12" data-purpose="main-footer">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="text-gray-500 text-sm">
+          Copyright © 2023 Embedded WebSkill.com
+        </div>
+        <div class="flex items-center gap-8">
+          <div class="flex items-center gap-4 text-gray-500 text-sm">
+            <a class="hover:text-blue-400 transition-colors" href="#">Terms</a>
+            <span class="text-gray-800">|</span>
+            <a class="hover:text-blue-400 transition-colors" href="#">Privacy</a>
+          </div>
+          <div class="flex items-center gap-5 text-gray-400">
+            <!-- Twitter -->
+            <a class="hover:text-white transition-colors" href="#">
+              <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z">
+                </path>
+              </svg>
+            </a>
+            <!-- Instagram -->
+            <a class="hover:text-white transition-colors" href="#">
+              <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z">
+                </path>
+              </svg>
+            </a>
+            <!-- YouTube -->
+            <a class="hover:text-white transition-colors" href="#">
+              <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z">
+                </path>
+              </svg>
+            </a>
+            <!-- GitHub -->
+            <a class="hover:text-white transition-colors" href="#">
+              <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12">
+                </path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- END: Footer -->
+</body>
+
+</html>
