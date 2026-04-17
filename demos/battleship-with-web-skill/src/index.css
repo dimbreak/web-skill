@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+
+:root {
+  font-family:
+    'IBM Plex Mono',
+    'Cascadia Code',
+    'SF Mono',
+    'Roboto Mono',
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+button {
+  font: inherit;
+}
+
+.hit-flash {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.25rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 59, 48, 0) 70%);
+  animation: hit-flash 480ms ease-out forwards;
+}
+
+.bomb-drop {
+  position: absolute;
+  top: -28px;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #111827;
+  box-shadow: 0 0 0 2px #facc15;
+  animation: bomb-drop 500ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.bomb-ring {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  border: 2px solid rgba(250, 204, 21, 0.9);
+  opacity: 0;
+  animation: bomb-ring 600ms ease-out 420ms forwards;
+}
+
+@keyframes hit-flash {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes bomb-drop {
+  0% {
+    transform: translateY(-32px);
+  }
+  70% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+@keyframes bomb-ring {
+  0% {
+    opacity: 1;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
