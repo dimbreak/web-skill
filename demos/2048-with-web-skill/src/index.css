@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Space Grotesk', ui-sans-serif, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+@keyframes tile-slide-left {
+  0% {
+    transform: translateX(18%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes tile-slide-right {
+  0% {
+    transform: translateX(-18%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes tile-slide-up {
+  0% {
+    transform: translateY(18%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes tile-slide-down {
+  0% {
+    transform: translateY(-18%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.tile-move-left {
+  animation: tile-slide-left 140ms cubic-bezier(0.2, 0.8, 0.25, 1);
+  will-change: transform, opacity;
+}
+
+.tile-move-right {
+  animation: tile-slide-right 140ms cubic-bezier(0.2, 0.8, 0.25, 1);
+  will-change: transform, opacity;
+}
+
+.tile-move-up {
+  animation: tile-slide-up 140ms cubic-bezier(0.2, 0.8, 0.25, 1);
+  will-change: transform, opacity;
+}
+
+.tile-move-down {
+  animation: tile-slide-down 140ms cubic-bezier(0.2, 0.8, 0.25, 1);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile-move-left,
+  .tile-move-right,
+  .tile-move-up,
+  .tile-move-down {
+    animation: none;
+  }
+}
