@@ -4,3 +4,5 @@ dist/
 tsup.config.bundled_*.mjs
 .idea
 web-skill.iml
+.DS_Store
+.vercel/
