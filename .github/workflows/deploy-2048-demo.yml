@@ -3,13 +3,13 @@ name: deploy-2048-demo
 on:
   pull_request:
     paths:
-      - "demos/2048-with-web-skill/**"
+      - "examples/2048-with-web-skill/**"
       - ".github/workflows/deploy-2048-demo.yml"
   push:
     branches:
       - main
     paths:
-      - "demos/2048-with-web-skill/**"
+      - "examples/2048-with-web-skill/**"
       - ".github/workflows/deploy-2048-demo.yml"
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: demos/2048-with-web-skill
+        working-directory: examples/2048-with-web-skill
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_2048 }}
@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: demos/2048-with-web-skill/pnpm-lock.yaml
+          cache-dependency-path: examples/2048-with-web-skill/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

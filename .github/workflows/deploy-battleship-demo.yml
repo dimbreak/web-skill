@@ -3,13 +3,13 @@ name: deploy-battleship-demo
 on:
   pull_request:
     paths:
-      - "demos/battleship-with-web-skill/**"
+      - "examples/battleship-with-web-skill/**"
       - ".github/workflows/deploy-battleship-demo.yml"
   push:
     branches:
       - main
     paths:
-      - "demos/battleship-with-web-skill/**"
+      - "examples/battleship-with-web-skill/**"
       - ".github/workflows/deploy-battleship-demo.yml"
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: demos/battleship-with-web-skill
+        working-directory: examples/battleship-with-web-skill
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_BATTLESHIP }}
@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: demos/battleship-with-web-skill/pnpm-lock.yaml
+          cache-dependency-path: examples/battleship-with-web-skill/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
