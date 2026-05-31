@@ -1,4 +1,4 @@
-# 2048-with-web-skill
+# battleship-with-web-skill
 
 A Vite + React + TypeScript demo game that integrates `web-skill`.
 
@@ -8,7 +8,7 @@ A Vite + React + TypeScript demo game that integrates `web-skill`.
 - React 19
 - TypeScript
 - Zustand
-- Tailwind CSS 3
+- Tailwind CSS 4
 - web-skill
 
 ## Requirements
@@ -29,21 +29,20 @@ pnpm dev
 - `pnpm lint`: run ESLint
 - `pnpm build`: type-check + production build
 - `pnpm check`: run lint + build
-- `pnpm clean`: remove `node_modules` and `dist`
 - `pnpm preview`: preview production build
 
 ## CI/CD (Vercel)
 
-Deployment is handled by `.github/workflows/deploy-2048-demo.yml`.
+Deployment is handled by `.github/workflows/deploy-battleship-demo.yml`.
 
-- Pull Request changes under `demos/2048-with-web-skill/**` -> deploy **Preview**
-- Push to `main` with changes under `demos/2048-with-web-skill/**` -> deploy **Production**
+- Pull Request changes under `examples/battleship-with-web-skill/**` -> deploy **Preview**
+- Push to `main` with changes under `examples/battleship-with-web-skill/**` -> deploy **Production**
 
 Required repository secrets:
 
 - `VERCEL_TOKEN`
 - `VERCEL_ORG_ID`
-- `VERCEL_PROJECT_ID_2048`
+- `VERCEL_PROJECT_ID_BATTLESHIP`
 
 ## Contributing
 

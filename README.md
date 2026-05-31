@@ -56,6 +56,8 @@ npm install vite
 
 ## Examples
 
+- [`examples/battleship-with-web-skill`](./examples/battleship-with-web-skill/): a React game demo that exposes Battleship actions through `web-skill`
+- [`examples/2048-with-web-skill`](./examples/2048-with-web-skill/): a React game demo that exposes 2048 actions through `web-skill`
 - [`examples/request-workbench`](./examples/request-workbench/): a pure front-end React + Zustand mock showing how to list existing records, create new drafts, and expose both flows through `web-skill`
 - [`examples/checkout-desk`](./examples/checkout-desk/): a three-step checkout form with local React state only, showing how a `prepareCheckout` skill can still drive a conventional DOM-shaped workflow
 
